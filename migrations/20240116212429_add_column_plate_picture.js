@@ -1,0 +1,20 @@
+/**
+ * @param { import("knex").Knex } knex
+ * @returns { Promise<void> }
+ */
+exports.up = function(knex) {
+    return knex.schema.alterTable('plate', function(table) {
+      table.string('picture');
+    });
+  };
+  
+  /**
+   * @param { import("knex").Knex } knex
+   * @returns { Promise<void> }
+   */
+  exports.down = function(knex) {
+    return knex.schema.alterTable('plate', function(table) {
+      table.dropColumn('picture');
+    });
+  };
+  

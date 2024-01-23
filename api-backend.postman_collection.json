@@ -1,0 +1,400 @@
+{
+	"info": {
+		"_postman_id": "b623c5a8-822a-4aa2-bfff-3c7af5ac1154",
+		"name": "api-backend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32205951"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Create user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"joao admin\",\r\n    \"email\": \"joaoadmin@email.com\",\r\n    \"password\": \"123\",\r\n    \"isAdmin\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{prod-url}}/users",
+							"host": [
+								"{{prod-url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Admin Session",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json();\r",
+									"\r",
+									"pm.collectionVariables.set(\"token\", jsonData.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"joaoadmin@email.com\",\r\n    \"password\": \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local-url}}/sessions",
+							"host": [
+								"{{local-url}}"
+							],
+							"path": [
+								"sessions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User Session",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json();\r",
+									"\r",
+									"pm.collectionVariables.set(\"token\", jsonData.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"joao@email.com\",\r\n    \"password\": \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local-url}}/sessions",
+							"host": [
+								"{{local-url}}"
+							],
+							"path": [
+								"sessions"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "restaurant",
+			"item": [
+				{
+					"name": "Get plates",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local-url}}/plates/",
+							"host": [
+								"{{local-url}}"
+							],
+							"path": [
+								"plates",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get plate picture",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local-url}}/files/:plate_name",
+							"host": [
+								"{{local-url}}"
+							],
+							"path": [
+								"files",
+								":plate_name"
+							],
+							"variable": [
+								{
+									"key": "plate_name",
+									"value": "d4402a4022af22789a87-strogonoff-de-frango.jpg"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get plates by query",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local-url}}/plates?name=alaminuta",
+							"host": [
+								"{{local-url}}"
+							],
+							"path": [
+								"plates"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "alaminuta"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Plate",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"plate_id\": 5,\r\n    \"plate_title\": \"alaminuta\",\r\n    \"plate_description\": \"arroz, feijao, ovo, salada e bife de gado\",\r\n    \"plate_price\": 15.50\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local-url}}/plates",
+							"host": [
+								"{{local-url}}"
+							],
+							"path": [
+								"plates"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Plate",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"plate_title\": \"deletar\",\r\n    \"plate_description\": \"deletar\",\r\n    \"plate_price\": 10.75,\r\n    \"ingredient_list\":[\"deletar\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local-url}}/plates",
+							"host": [
+								"{{local-url}}"
+							],
+							"path": [
+								"plates"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update plate picture",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "plate_picture",
+									"type": "file",
+									"src": "/C:/Users/ludie/Desktop/strogonoff-de-frango.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{local-url}}/plates/:plateid",
+							"host": [
+								"{{local-url}}"
+							],
+							"path": [
+								"plates",
+								":plateid"
+							],
+							"variable": [
+								{
+									"key": "plateid",
+									"value": "14"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Plate",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{local-url}}/plates/1",
+							"host": [
+								"{{local-url}}"
+							],
+							"path": [
+								"plates",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "local-url",
+			"value": "localhost:3333",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "prod-url",
+			"value": "https://food-explorer-web-service.onrender.com",
+			"type": "string"
+		}
+	]
+}
